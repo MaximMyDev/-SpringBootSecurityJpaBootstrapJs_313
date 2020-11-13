@@ -11,24 +11,8 @@
 </head>
 
 <body>
-<!-- Header Black Block -->
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-2 shadow">
-	<div class="navbar-brand col-md-3 col-lg-2 mr-0 px-3">
-		<th:block th:each="msg : ${userCurrent}">
-			<div th:text="${msg.name +' with roles: ' + msg.getRoles().toString()}" />
-			<input th:value="${msg.getId()}" type="hidden" id="currentUserId"></input>
-		</th:block>
+<header th:insert="/include/includeHeader.html :: header"> </header>
 
-	</div>
-	<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<ul class="navbar-nav px-3">
-		<li class="nav-item text-nowrap">
-			<a class="nav-link" th:href="@{/logout}">Logout</a>
-		</li>
-	</ul>
-</nav>
 <div class="container-fluid">
 	<div class="row h-100">
 		<!-- modal edit-->
@@ -141,11 +125,6 @@
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#newUser" role="tab" aria-controls="new" onclick="cleanForm()">New User</a>
 							</li>
-							<!--
-                                           <li class="nav-item">
-                                               <a class="nav-link" data-toggle="tab" href="#userTable" role="tab" aria-controls="profile">Role Table</a>
-                                           </li>
-                                           -->
 						</ul>
 						<!--list tab user -->
 						<div class="tab-content">
@@ -167,55 +146,34 @@
 								</table>
 
 							</div>
-							<!--list tab role
-                                           <div class="tab-pane" id="userTable" role="tabpanel">
-                                               <div class="tab-content">
-                                                   <table class="table table-striped">
-                                                       <tr>
-                                                           <th>ID</th>
-                                                           <th>Role</th>
-                                                       </tr>
-                                                       <tr th:each ="role : ${roleList}">
-                                                           <td th:text="${role.id}">Номер</td>
-                                                           <td th:text="${role.role}">Роль</td>
-                                                           <td><a th:href="${'/role/edit/' + role.id}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                                           <td><a th:href="${'/role/delete/' + role.id}"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                                       </tr>
-                                                   </table>
-                                               </div>
-                                           </div>
-                                           -->
 							<!--tab new user -->
 							<div class="tab-pane" id="newUser" role="tabpanel">
 								<div class="tab-content">
-									<div class="container">
-										<div class="row justify-content-center align-items-center">
-											<form class="form-horizontal" id="newUserForm">
-												<div class="form-group">
-													<label class="control-label">User's Name:</label>
-													<input class="form-control" id="nameAdd" type="text" name="name" required />
-												</div>
-												<div class="form-group">
-													<label class="control-label">User's Email:</label>
-													<input class="form-control" id="emailAdd" type="email" name="email" />
-												</div>
-												<div class="form-group">
-													<label class="control-label">User's Password:</label>
-													<input class="form-control" id="passwordAdd" type="password" name="password" required />
-												</div>
-												<div class="form-group">
-													<select multiple size="2" id="roleAdd" name="role" class="form-control">
-														<label class="control-label">User's Role:</label>
-														<option value="ROLE_ADMIN">ROLE_ADMIN</option>
-														<option selected="selected" value="ROLE_USER">ROLE_USER</option>
-													</select>
-												</div>
-												<div>
-													<button type="button" class="btn btn-success" onclick="addUser()">Add</button>
-												</div>
-											</form>
+									<form class="form-horizontal" id="newUserForm">
+										<div class="form-group">
+											<label class="control-label">User's Name:</label>
+											<input class="form-control" id="nameAdd" type="text" name="name" required />
 										</div>
-									</div>
+										<div class="form-group">
+											<label class="control-label">User's Email:</label>
+											<input class="form-control" id="emailAdd" type="email" name="email" />
+										</div>
+										<div class="form-group">
+											<label class="control-label">User's Password:</label>
+											<input class="form-control" id="passwordAdd" type="password" name="password" required />
+										</div>
+										<div class="form-group">
+											<select multiple size="2" id="roleAdd" name="role" class="form-control">
+												<label class="control-label">User's Role:</label>
+												<option value="ROLE_ADMIN">ROLE_ADMIN</option>
+												<option selected="selected" value="ROLE_USER">ROLE_USER</option>
+											</select>
+										</div>
+										<div>
+											<button type="button" class="btn btn-success" onclick="addUser()">Add</button>
+										</div>
+									</form>
+
 								</div>
 							</div>
 						</div>
@@ -258,4 +216,5 @@
 <script th:src="@{../static/js/main.js}" src="../static/js/main.js"></script>
 
 </body>
+
 </html>
