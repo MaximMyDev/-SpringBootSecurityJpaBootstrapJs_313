@@ -1,83 +1,21 @@
 $(document).ready(fillUserTable());
 
 function addUser() {
-   /* let selectedRoles = [];
-    $("#role :selected").each(function () {
-        var currentRoleObject = {'id': $(this).val()}
-        selectedRoles.push(currentRoleObject); //Заполняем массив объектами выбранных ролей
-        console.log(currentRoleObject.id.toString())
-    });*/
-
     const newRoles = $('#roleAdd').val().toString();
     let rolesArray = newRoles.split(',');
     let roleToBody = [];
 
     for (let i = 0; i < rolesArray.length; i++) {
-        /*let myObj = Object.create( {}, {   // объект-прототип соответствует null
-            role: {                     // добавляем новое свойство
-                value: rolesArray[i].toString()    // указываем значение свойства
-            }
-        });*/
-        //let myObj = JSON.stringify({ role: rolesArray[i].toString() });
         let myObj = { role: rolesArray[i].toString() };
-
-        console.log("rolesArray="+rolesArray[i])
         roleToBody[i] = myObj;
-        console.log("add="+JSON.stringify(myObj))
-        //roleToBody = Object.create({}, { role: { value: rolesArray[i] } });
-
     }
 
-    console.log("roleToBody="+JSON.stringify(roleToBody))
-
-    /*
-    let roleToBodyTxt = '';
-
-    let count = 0;
-    let separator = ', ';
-    for (let i = 0; i < rolesArray.length; i++) {
-        //roleToBody[i] = JSON.stringify({'role':rolesArray[i]} );
-        //roleToBody[i] = "role :" + rolesArray[i];
-        /!*if (count > 0) {
-            allRoles += separator + item.role;
-        } else {
-            allRoles += item.role;
-        }*!/
-
-        roleToBodyTxt+= "{\'role\':\'" + rolesArray[i]+'\'},';
-
-    }*/
-    //console.log(roleToBodyTxt)
-    //roleToBody.
-    //console.log("roleToBody="+roleToBody.toString())
-    /*console.log("newRoles=" + newRoles);
-    newRoles.forEach(function(item) {
-        roles += item + ',';
-        console.log("item=" + item);
-    })
-    for (let i = 0; i<newRoles.)
-    console.log("roles=" + roles);
-    const rolesSend = roles.substr(0, roles.length - 1);*/
-    //console.log(rolesSend)
-
-    //console.log("testRole="+testRole)
-
-    let testRole = [
-        {
-            "role": "ROLE_ADMIN"
-        }
-    ]
-    //let testRole2 = "role:ROLE_ADMIN"
-    //console.log("testRole="+testRole.toString())
     let jsonVar = {
         name: document.getElementById("nameAdd").value,
         email: document.getElementById("emailAdd").value,
         password: document.getElementById("passwordAdd").value,
         roles: roleToBody
     };
-    /*console.log("jsonVar1="+jsonVar)
-    console.log("jsonVar2="+jsonVar.roles)
-    console.log("jsonVar3="+jsonVar.roles.toString())*/
 
     const response = fetch('/api/add', {
         method: 'POST',
@@ -86,6 +24,7 @@ function addUser() {
             'Content-Type': 'application/json'
         }
     });
+
     document.getElementById('table-tab').click();
     $("#usersTable > tbody").empty();
     fillUserTable();
@@ -109,28 +48,31 @@ function editUser(o) {
 }
 
 function updateUser() {
-    let roles = '?roles=';
-    const newRoles = $('#editFormControlSelect').val();
-    newRoles.forEach(function(item) {
-        roles += item + ',';
-    })
-    const rolesSend = roles.substr(0, roles.length - 1);
+    const newRoles = $('#editFormControlSelect').val().toString();
+    let rolesArray = newRoles.split(',');
+    let roleToBody = [];
+    console.log(rolesArray.toString())
+    for (let i = 0; i < rolesArray.length; i++) {
+        let myObj = { role: rolesArray[i].toString() };
+        roleToBody[i] = myObj;
+    }
+
     const jsonVar = {
         id: document.getElementById("idEdit").value,
         name: document.getElementById("nameEdit").value,
         email: document.getElementById("emailEdit").value,
-        password: document.getElementById("passwordEdit").value
+        password: document.getElementById("passwordEdit").value,
+        roles: roleToBody
     };
-    console.log(jsonVar);
-    const response = fetch('/api/edit' + rolesSend, {
+    const response = fetch('/api/edit', {
         method: 'POST',
         body: JSON.stringify(jsonVar),
         headers: {
             'Content-Type': 'application/json'
         }
     });
-    $("#usersTable > tbody").empty();
     printUsers();
+    $("#usersTable > tbody").empty();
 }
 
 function getUser() {
@@ -192,7 +134,7 @@ function cleanForm() {
 }
 
 function fillUserTable() {
-    const response = fetch('http://localhost:8089/api/list').then((response) => {
+    const response = fetch('/api/list').then((response) => {
         response.json().then((data) => {
             data.forEach(function(i) {
                 let roles = i.authorities;

@@ -36,17 +36,14 @@ public class RestApiContoller {
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity<Object> addNew(@RequestBody User user/*,
-                                         @RequestParam(value = "roles", required = false) String[] roles*/) {
-        System.out.println(user.getRoles());
-        /*Set<Role> rolesArray = new HashSet<>();
-        for (String role : roles) {
-            Optional<Role> currentRole = userService.getRoleByRoleName(role);
-            rolesArray.add(currentRole.get());
+    public ResponseEntity<Object> addNew(@RequestBody User user) {
+        Set<Role> rolesToSave = new HashSet<>();
+        for (Role role : user.getRoles()) {
+            Optional<Role> currentRole = userService.getRoleByRoleName(role.getRole());
+            rolesToSave.add(currentRole.get());
         }
-        user.setRoles(rolesArray);*/
+        user.setRoles(rolesToSave);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         userService.add(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -67,15 +64,13 @@ public class RestApiContoller {
     }
 
     @PostMapping(value = "/edit")
-    public ResponseEntity<Object> editUser(@RequestBody User user,
-                                         @RequestParam(value = "roles", required = false) String[] roles) {
-        Set<Role> rolesArray = new HashSet<>();
-        System.out.println(user.getEmail());
-        for (String role : roles) {
-            Optional<Role> currentRole = userService.getRoleByRoleName(role);
-            rolesArray.add(currentRole.get());
+    public ResponseEntity<Object> editUser(@RequestBody User user) {
+        Set<Role> rolesToSave = new HashSet<>();
+        for (Role role : user.getRoles()) {
+            Optional<Role> currentRole = userService.getRoleByRoleName(role.getRole());
+            rolesToSave.add(currentRole.get());
         }
-        user.setRoles(rolesArray);
+        user.setRoles(rolesToSave);
 
         if (user.getPassword().isEmpty() || user.getPassword() == null) {
             Optional<User> newUser = userService.getById(user.getId());
@@ -86,5 +81,4 @@ public class RestApiContoller {
         userService.edit(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
 }
