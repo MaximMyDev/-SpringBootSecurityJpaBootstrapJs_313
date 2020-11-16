@@ -37,12 +37,7 @@ public class RestApiContoller {
 
     @PostMapping(value = "/add")
     public ResponseEntity<Object> addNew(@RequestBody User user) {
-        Set<Role> rolesToSave = new HashSet<>();
-        for (Role role : user.getRoles()) {
-            Optional<Role> currentRole = userService.getRoleByRoleName(role.getRole());
-            rolesToSave.add(currentRole.get());
-        }
-        user.setRoles(rolesToSave);
+        getRoleAndSet(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.add(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -65,13 +60,7 @@ public class RestApiContoller {
 
     @PostMapping(value = "/edit")
     public ResponseEntity<Object> editUser(@RequestBody User user) {
-        Set<Role> rolesToSave = new HashSet<>();
-        for (Role role : user.getRoles()) {
-            Optional<Role> currentRole = userService.getRoleByRoleName(role.getRole());
-            rolesToSave.add(currentRole.get());
-        }
-        user.setRoles(rolesToSave);
-
+        getRoleAndSet(user);
         if (user.getPassword().isEmpty() || user.getPassword() == null) {
             Optional<User> newUser = userService.getById(user.getId());
             user.setPassword(newUser.get().getPassword());
@@ -80,5 +69,14 @@ public class RestApiContoller {
         }
         userService.edit(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    private void getRoleAndSet(@RequestBody User user) {
+        Set<Role> rolesToSave = new HashSet<>();
+        for (Role role : user.getRoles()) {
+            Optional<Role> currentRole = userService.getRoleByRoleName(role.getRole());
+            rolesToSave.add(currentRole.get());
+        }
+        user.setRoles(rolesToSave);
     }
 }

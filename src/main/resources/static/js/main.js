@@ -1,14 +1,7 @@
 $(document).ready(fillUserTable());
 
 function addUser() {
-    const newRoles = $('#roleAdd').val().toString();
-    let rolesArray = newRoles.split(',');
-    let roleToBody = [];
-
-    for (let i = 0; i < rolesArray.length; i++) {
-        let myObj = { role: rolesArray[i].toString() };
-        roleToBody[i] = myObj;
-    }
+    let roleToBody = creatRoleToBody('#roleAdd');
 
     let jsonVar = {
         name: document.getElementById("nameAdd").value,
@@ -46,9 +39,8 @@ function editUser(o) {
         });
     });
 }
-
-function updateUser() {
-    const newRoles = $('#editFormControlSelect').val().toString();
+function creatRoleToBody($formId) {
+    const newRoles = $($formId).val().toString();
     let rolesArray = newRoles.split(',');
     let roleToBody = [];
     console.log(rolesArray.toString())
@@ -56,6 +48,11 @@ function updateUser() {
         let myObj = { role: rolesArray[i].toString() };
         roleToBody[i] = myObj;
     }
+    return roleToBody;
+}
+
+function updateUser() {
+    let roleToBody = creatRoleToBody('#editFormControlSelect');
 
     const jsonVar = {
         id: document.getElementById("idEdit").value,
