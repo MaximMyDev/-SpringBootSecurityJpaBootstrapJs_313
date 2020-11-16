@@ -36,14 +36,15 @@ public class RestApiContoller {
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity<Object> addNew(@RequestBody User user,
-                                         @RequestParam(value = "roles", required = false) String[] roles) {
-        Set<Role> rolesArray = new HashSet<>();
+    public ResponseEntity<Object> addNew(@RequestBody User user/*,
+                                         @RequestParam(value = "roles", required = false) String[] roles*/) {
+        System.out.println(user.getRoles());
+        /*Set<Role> rolesArray = new HashSet<>();
         for (String role : roles) {
             Optional<Role> currentRole = userService.getRoleByRoleName(role);
             rolesArray.add(currentRole.get());
         }
-        user.setRoles(rolesArray);
+        user.setRoles(rolesArray);*/
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userService.add(user);

@@ -1,21 +1,85 @@
 $(document).ready(fillUserTable());
 
 function addUser() {
-    let roles = '?roles=';
-    const newRoles = $('#roleAdd').val();
-    console.log("newRoles=" + newRoles);
+   /* let selectedRoles = [];
+    $("#role :selected").each(function () {
+        var currentRoleObject = {'id': $(this).val()}
+        selectedRoles.push(currentRoleObject); //Заполняем массив объектами выбранных ролей
+        console.log(currentRoleObject.id.toString())
+    });*/
+
+    const newRoles = $('#roleAdd').val().toString();
+    let rolesArray = newRoles.split(',');
+    let roleToBody = [];
+
+    for (let i = 0; i < rolesArray.length; i++) {
+        /*let myObj = Object.create( {}, {   // объект-прототип соответствует null
+            role: {                     // добавляем новое свойство
+                value: rolesArray[i].toString()    // указываем значение свойства
+            }
+        });*/
+        //let myObj = JSON.stringify({ role: rolesArray[i].toString() });
+        let myObj = { role: rolesArray[i].toString() };
+
+        console.log("rolesArray="+rolesArray[i])
+        roleToBody[i] = myObj;
+        console.log("add="+JSON.stringify(myObj))
+        //roleToBody = Object.create({}, { role: { value: rolesArray[i] } });
+
+    }
+
+    console.log("roleToBody="+JSON.stringify(roleToBody))
+
+    /*
+    let roleToBodyTxt = '';
+
+    let count = 0;
+    let separator = ', ';
+    for (let i = 0; i < rolesArray.length; i++) {
+        //roleToBody[i] = JSON.stringify({'role':rolesArray[i]} );
+        //roleToBody[i] = "role :" + rolesArray[i];
+        /!*if (count > 0) {
+            allRoles += separator + item.role;
+        } else {
+            allRoles += item.role;
+        }*!/
+
+        roleToBodyTxt+= "{\'role\':\'" + rolesArray[i]+'\'},';
+
+    }*/
+    //console.log(roleToBodyTxt)
+    //roleToBody.
+    //console.log("roleToBody="+roleToBody.toString())
+    /*console.log("newRoles=" + newRoles);
     newRoles.forEach(function(item) {
         roles += item + ',';
+        console.log("item=" + item);
     })
+    for (let i = 0; i<newRoles.)
     console.log("roles=" + roles);
-    const rolesSend = roles.substr(0, roles.length - 1);
+    const rolesSend = roles.substr(0, roles.length - 1);*/
+    //console.log(rolesSend)
+
+    //console.log("testRole="+testRole)
+
+    let testRole = [
+        {
+            "role": "ROLE_ADMIN"
+        }
+    ]
+    //let testRole2 = "role:ROLE_ADMIN"
+    //console.log("testRole="+testRole.toString())
     let jsonVar = {
         name: document.getElementById("nameAdd").value,
         email: document.getElementById("emailAdd").value,
-        password: document.getElementById("passwordAdd").value
+        password: document.getElementById("passwordAdd").value,
+        roles: roleToBody
     };
-    console.log("jsonVar=" + jsonVar)
-    const response = fetch('/api/add' + rolesSend, {
+    /*console.log("jsonVar1="+jsonVar)
+    console.log("jsonVar2="+jsonVar.roles)
+    console.log("jsonVar3="+jsonVar.roles.toString())*/
+
+    const response = fetch('/api/add', {
         method: 'POST',
         body: JSON.stringify(jsonVar),
         headers: {

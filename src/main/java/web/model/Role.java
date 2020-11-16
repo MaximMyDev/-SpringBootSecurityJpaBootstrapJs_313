@@ -1,10 +1,7 @@
 package web.model;
 
-
 import org.springframework.security.core.GrantedAuthority;
-
 import javax.persistence.*;
-
 // Этот класс реализует интерфейс GrantedAuthority, в котором необходимо переопределить только один метод getAuthority()
 // (возвращает имя роли).
 // Имя роли должно соответствовать шаблону: «ROLE_ИМЯ», например, ROLE_USER.
@@ -17,8 +14,6 @@ public class Role implements GrantedAuthority {
 
     @Column(name = "role")
     private String role;
-
-    //@ManyToMany(mappedBy = "roles")//private Set<User> users;
 
     public Role() {
     }
