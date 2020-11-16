@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import web.model.Role;
 import web.model.User;
-import web.service.UserServiceImpl;
+import web.service.UserService;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
-    private final UserServiceImpl userService;
+    private final UserService userService;
     @Autowired
-    public AdminController(UserServiceImpl userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 

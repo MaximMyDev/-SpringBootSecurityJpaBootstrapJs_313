@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import web.model.User;
-import web.service.UserServiceImpl;
+import web.service.UserService;
 
 import java.util.Optional;
 
 
 @Controller
 public class UserController {
-    private final UserServiceImpl userService;
+    private final UserService userService;
     @Autowired
-    public UserController(UserServiceImpl userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

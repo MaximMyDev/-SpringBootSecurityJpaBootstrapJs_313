@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
-import web.service.UserServiceImpl;
+import web.service.UserService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,11 +18,11 @@ import java.util.Set;
 @RequestMapping(value = "/api")
 public class RestApiContoller {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RestApiContoller(UserServiceImpl userService, PasswordEncoder passwordEncoder) {
+    public RestApiContoller(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
